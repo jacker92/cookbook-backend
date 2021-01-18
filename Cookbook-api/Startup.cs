@@ -41,6 +41,7 @@ namespace Cookbook_api
             services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<JwtTokenGenerator>();
+            services.AddScoped<GoogleTokenValidator>();
             services.AddCors();
 
             services.AddControllers();
