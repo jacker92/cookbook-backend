@@ -1,4 +1,4 @@
-﻿namespace Cookbook_api.Controllers.WebApi.Controllers
+﻿namespace Cookbook_api.Models
 {
     public class GoogleAuthenticateRequest
     {

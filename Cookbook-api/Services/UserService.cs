@@ -16,8 +16,8 @@ namespace Cookbook_api.Services
         private readonly ILogger<UserService> _logger;
         private readonly GoogleTokenValidator _googleTokenValidator;
 
-        public UserService(ICookbookDatabaseSettings settings, 
-            JwtTokenGenerator jwtTokenGenerator, 
+        public UserService(ICookbookDatabaseSettings settings,
+            JwtTokenGenerator jwtTokenGenerator,
             ILogger<UserService> logger,
             GoogleTokenValidator googleTokenValidator)
         {
@@ -32,7 +32,7 @@ namespace Cookbook_api.Services
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = _users.Find(x => x.Username == model.Username && 
+            var user = _users.Find(x => x.UserName == model.Username &&
                                    x.Password == model.Password &&
                                    x.AccountType == AccountType.Internal).FirstOrDefault();
 
@@ -52,9 +52,9 @@ namespace Cookbook_api.Services
                 return null;
             }
 
-            var user = _users.Find(x => x.Username == result.Email).FirstOrDefault();
+            var user = _users.Find(x => x.UserName == result.Email).FirstOrDefault();
 
-            var userResult =  user ?? CreateFromGoogleInfo(result);
+            var userResult = user ?? CreateFromGoogleInfo(result);
 
             var token = _jwtTokenGenerator.GenerateJwtToken(userResult);
 
@@ -68,9 +68,9 @@ namespace Cookbook_api.Services
                 AccountType = AccountType.Google,
                 FirstName = result.Given_Name,
                 LastName = result.Family_Name,
-                Username = result.Email
+                UserName = result.Email
             };
-           _users.InsertOne(user);
+            _users.InsertOne(user);
             return user;
         }
 
@@ -82,6 +82,27 @@ namespace Cookbook_api.Services
         public User GetById(string id)
         {
             return _users.Find(x => x.ID == id).FirstOrDefault();
+        }
+
+        public CreateNewUserResponse Create(CreateNewUserRequest request)
+        {
+            var response = _users.Find(x => x.UserName == request.UserName);
+
+            var user = new User
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                UserName = request.UserName,
+                AccountType = AccountType.Internal,
+                Password = request.Password.Salt(),
+            };
+
+            if (response == null)
+            {
+                _users.InsertOne(user);
+            }
+
+            return new CreateNewUserResponse { User = user };
         }
     }
 }

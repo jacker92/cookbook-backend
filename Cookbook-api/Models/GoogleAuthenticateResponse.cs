@@ -1,4 +1,4 @@
-﻿namespace Cookbook_api.Services
+﻿namespace Cookbook_api.Models
 {
     public class GoogleAuthenticateResponse
     {

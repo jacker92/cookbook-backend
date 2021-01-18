@@ -10,5 +10,6 @@ namespace Cookbook_api.Services
         Task<IEnumerable<User>> GetAll();
         User GetById(string id);
         AuthenticateResponse AuthenticateWithGoogle(AuthenticateRequest model);
+        CreateNewUserResponse Create(CreateNewUserRequest request);
     }
 }

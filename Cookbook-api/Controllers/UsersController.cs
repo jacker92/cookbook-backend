@@ -10,7 +10,7 @@ namespace Cookbook_api.Controllers
     namespace WebApi.Controllers
     {
         [ApiController]
-        [Route("[controller]")]
+        [Route("api/[controller]")]
         public class UsersController : ControllerBase
         {
             private readonly IUserService _userService;
@@ -45,6 +45,17 @@ namespace Cookbook_api.Controllers
 
                 if (res == null)
                     return BadRequest(new { message = "Username or password is incorrect" });
+
+                return Ok(res);
+            }
+
+            [HttpPost]
+            public IActionResult Create(CreateNewUserRequest request)
+            {
+                var res = _userService.Create(request);
+
+                if(res == null)
+                    return BadRequest(new { message = "Could not create user" });
 
                 return Ok(res);
             }
