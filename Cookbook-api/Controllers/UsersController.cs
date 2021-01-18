@@ -4,9 +4,6 @@ using Cookbook_api.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Cookbook_api.Controllers
 {
@@ -28,7 +25,8 @@ namespace Cookbook_api.Controllers
             [HttpPost("authenticate")]
             public IActionResult Authenticate(AuthenticateRequest model)
             {
-                _logger.LogInformation("In authenticate");
+                _logger.LogInformation("In authenticate", model);
+
                 if (model is null)
                 {
                     throw new ArgumentNullException(nameof(model));

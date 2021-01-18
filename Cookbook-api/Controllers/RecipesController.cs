@@ -2,10 +2,7 @@
 using Cookbook_api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Cookbook_api.Controllers
 {
@@ -22,11 +19,9 @@ namespace Cookbook_api.Controllers
             _recipeService = recipeService;
         }
 
-
         [HttpGet]
         public IEnumerable<Recipe> Get()
         {
-            _logger.LogInformation("Getting all recipes");
             return _recipeService.Get();
         }
 

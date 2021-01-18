@@ -1,5 +1,4 @@
-﻿using Cookbook_api.Controllers.WebApi.Controllers;
-using Cookbook_api.Models;
+﻿using Cookbook_api.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
