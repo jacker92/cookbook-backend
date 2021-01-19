@@ -5,9 +5,7 @@ using CookbookAPI.Controllers.WebApi.Controllers;
 using CookbookAPI.Services;
 using CookbookAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using CookbookAPI.Tests.TestData;
-using Newtonsoft.Json;
 using CookbookAPI.Utilities;
 using CookbookAPI.Repositories;
 

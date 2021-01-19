@@ -1,13 +1,10 @@
 ﻿using CookbookAPI.Models;
 using CookbookAPI.Utilities;
 using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CookbookAPI.Tests.TestData
 {
-   public static class TestDataRepository
+    public static class TestDataRepository
     {
         public static CreateNewUserRequest GetCreateNewUserRequest()
         {
