@@ -1,4 +1,5 @@
 ﻿using CookbookAPI.Models;
+using CookbookAPI.Repositories;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,34 +8,31 @@ namespace CookbookAPI.Services
 {
     public class RecipeService : IRecipeService
     {
-        private readonly IMongoCollection<Recipe> _recipes;
+        private readonly IMongoRepository<Recipe> _recipeRepository;
 
-        public RecipeService(ICookbookDatabaseSettings settings)
+        public RecipeService(IMongoRepository<Recipe> recipeRepository)
         {
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
-
-            _recipes = database.GetCollection<Recipe>(settings.RecipesCollectionName);
+            _recipeRepository = recipeRepository;
         }
 
         public Recipe Get(string id) =>
-           _recipes.Find(recipe => recipe.ID == id).FirstOrDefault();
+           _recipeRepository.FindById(id);
 
         public Recipe Create(Recipe recipe)
         {
-            _recipes.InsertOne(recipe);
+            _recipeRepository.InsertOne(recipe);
             return recipe;
         }
 
-        public void Update(string id, Recipe recipeIn) =>
-            _recipes.ReplaceOne(recipe => recipe.ID == id, recipeIn);
+        public void Update(Recipe recipe) =>
+            _recipeRepository.ReplaceOne(recipe);
 
         public void Remove(Recipe recipeIn) =>
-            _recipes.DeleteOne(recipe => recipe.ID == recipeIn.ID);
+            _recipeRepository.DeleteOne(recipe => recipe.ID == recipeIn.ID);
 
         public void Remove(string id) =>
-            _recipes.DeleteOne(recipe => recipe.ID == id);
+            _recipeRepository.DeleteOne(recipe => recipe.ID.ToString() == id);
 
-        public IList<Recipe> Get() => _recipes.Find(recipe => true).ToList();
+        public IList<Recipe> Get() => _recipeRepository.AsQueryable().ToList();
     }
 }

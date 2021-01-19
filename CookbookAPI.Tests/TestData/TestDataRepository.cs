@@ -1,5 +1,6 @@
 ﻿using CookbookAPI.Models;
 using CookbookAPI.Utilities;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -25,7 +26,7 @@ namespace CookbookAPI.Tests.TestData
             {
                 User = new User
                 {
-                    ID = "asdf",
+                    ID = new ObjectId(),
                     UserName = "jaakko",
                     FirstName = "jaakko",
                     LastName = "lahtinen",

@@ -11,7 +11,7 @@
 
         public AuthenticateResponse(User user, string token)
         {
-            ID = user.ID;
+            ID = user.ID.ToString();
             FirstName = user.FirstName;
             LastName = user.LastName;
             Username = user.UserName;

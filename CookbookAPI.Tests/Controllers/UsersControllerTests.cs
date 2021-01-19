@@ -9,6 +9,7 @@ using System.Diagnostics;
 using CookbookAPI.Tests.TestData;
 using Newtonsoft.Json;
 using CookbookAPI.Utilities;
+using CookbookAPI.Repositories;
 
 namespace CookbookAPI.Tests.Controllers
 {
@@ -16,24 +17,22 @@ namespace CookbookAPI.Tests.Controllers
     public class UsersControllerTests
     {
         private UsersController _usersController;
-        private Mock<IUserService> _usersService;
+        private UserService _usersService;
         private Mock<ILogger<UsersController>> _logger;
+        private Mock<IMongoRepository<User>> _usersRepository;
 
         [TestInitialize]
         public void InitTests()
         {
-            _usersService = new Mock<IUserService>();
+            _usersRepository = new Mock<IMongoRepository<User>>();
             _logger = new Mock<ILogger<UsersController>>();
-            _usersController = new UsersController(_usersService.Object, _logger.Object);
+            _usersService = new UserService(_usersRepository.Object, null, null, null);
+            _usersController = new UsersController(_usersService, _logger.Object);
         }
         [TestMethod()]
-        public void Create_ShouldWorkAndCallUserService_IfCalledWithCorrectModel()
+        public void Create_ShouldReturnOK_IfCalledWithCorrectModel()
         {
             var request = TestDataRepository.GetCreateNewUserRequest();
-            var response = TestDataRepository.GetCreateNewUserResponse();
-
-            _usersService.Setup(x => x.Create(request))
-                .Returns(response);
 
             var result = (OkObjectResult)_usersController.Create(request);
 
@@ -43,6 +42,17 @@ namespace CookbookAPI.Tests.Controllers
             Assert.AreEqual(request.LastName, res.User.LastName);
             Assert.AreEqual(request.UserName, res.User.UserName);
             Assert.IsTrue(SecurePasswordHasher.Verify(request.Password, res.User.Password));
+        }
+
+        [TestMethod()]
+        public void Create_ShouldReturnBadResult_IfCalledWithInvalidModel()
+        {
+            var request = TestDataRepository.GetCreateNewUserRequest();
+            request.Password = null;
+
+            var result = (BadRequestObjectResult)_usersController.Create(request);
+
+            Assert.IsNotNull(result);
         }
     }
 }

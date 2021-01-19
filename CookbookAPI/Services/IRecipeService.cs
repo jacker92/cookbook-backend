@@ -10,6 +10,6 @@ namespace CookbookAPI.Services
         Recipe Get(string id);
         void Remove(Recipe recipeIn);
         void Remove(string id);
-        void Update(string id, Recipe recipeIn);
+        void Update(Recipe recipeIn);
     }
 }

@@ -1,14 +1,13 @@
-﻿using MongoDB.Bson;
+﻿using CookbookAPI.Repositories;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Text.Json.Serialization;
 
 namespace CookbookAPI.Models
 {
-    public class User
+    [BsonCollection("users")]
+    public class User : Document
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }

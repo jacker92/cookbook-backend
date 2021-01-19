@@ -1,14 +1,12 @@
+using CookbookAPI.Repositories;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace CookbookAPI.Models
 {
-    public class Recipe
+    [BsonCollection("recipes")]
+    public class Recipe : Document
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string ID { get; set; }
-
         [BsonElement("Name")]
         public string Name { get; set; }
 

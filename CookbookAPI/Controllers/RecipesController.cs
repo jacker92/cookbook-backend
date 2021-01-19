@@ -56,7 +56,7 @@ namespace CookbookAPI.Controllers
                 return NotFound();
             }
 
-            _recipeService.Update(id, recipeIn);
+            _recipeService.Update(recipeIn);
 
             return NoContent();
         }
@@ -71,7 +71,7 @@ namespace CookbookAPI.Controllers
                 return NotFound();
             }
 
-            _recipeService.Remove(recipe.ID);
+            _recipeService.Remove(recipe);
 
             return NoContent();
         }

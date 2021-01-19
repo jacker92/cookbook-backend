@@ -1,4 +1,5 @@
 using CookbookAPI.Models;
+using CookbookAPI.Repositories;
 using CookbookAPI.Services;
 using CookbookAPI.Utilities;
 using Microsoft.AspNetCore.Builder;
@@ -19,15 +20,17 @@ namespace CookbookAPI
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             // requires using Microsoft.Extensions.Options
-            services.Configure<CookbookDatabaseSettings>(
-                Configuration.GetSection(nameof(CookbookDatabaseSettings)));
+            services.Configure<MongoDbSettings>(
+                Configuration.GetSection(nameof(MongoDbSettings)));
 
-            services.AddSingleton<ICookbookDatabaseSettings>(sp =>
-                sp.GetRequiredService<IOptions<CookbookDatabaseSettings>>().Value);
+            services.AddSingleton<IMongoDBSettings>(sp =>
+                sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
+
+            services.AddTransient<IMongoRepository<Recipe>, MongoRepository<Recipe>>();
+            services.AddTransient<IMongoRepository<User>, MongoRepository<User>>();
 
             services.AddScoped<IRecipeService, RecipeService>();
             services.AddScoped<IUserService, UserService>();
