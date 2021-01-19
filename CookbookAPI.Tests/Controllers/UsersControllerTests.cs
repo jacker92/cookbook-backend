@@ -10,7 +10,6 @@ using CookbookAPI.Utilities;
 using CookbookAPI.Repositories;
 using CookbookAPI.Models.Responses;
 using System.Collections.Generic;
-using Microsoft.Extensions.Options;
 using CookbookAPI.Tests.Utilities;
 
 namespace CookbookAPI.Tests.Controllers

@@ -3,7 +3,6 @@ using CookbookAPI.Models.Requests;
 using CookbookAPI.Models.Responses;
 using CookbookAPI.Repositories;
 using CookbookAPI.Utilities;
-using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;

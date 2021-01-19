@@ -1,9 +1,6 @@
 ﻿using CookbookAPI.Utilities;
 using Microsoft.Extensions.Options;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CookbookAPI.Tests.Utilities
 {

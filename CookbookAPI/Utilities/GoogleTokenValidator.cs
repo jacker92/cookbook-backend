@@ -1,5 +1,4 @@
-﻿using CookbookAPI.Models;
-using CookbookAPI.Models.Requests;
+﻿using CookbookAPI.Models.Requests;
 using CookbookAPI.Models.Responses;
 using Newtonsoft.Json;
 using System.Net.Http;

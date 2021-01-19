@@ -1,5 +1,4 @@
-﻿using CookbookAPI.Models;
-using CookbookAPI.Models.Requests;
+﻿using CookbookAPI.Models.Requests;
 using CookbookAPI.Services;
 using CookbookAPI.Utilities;
 using Microsoft.AspNetCore.Mvc;
