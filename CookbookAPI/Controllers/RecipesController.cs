@@ -10,12 +10,10 @@ namespace CookbookAPI.Controllers
     [Route("api/[controller]")]
     public class RecipesController : ControllerBase
     {
-        private readonly ILogger<RecipesController> _logger;
         private readonly IRecipeService _recipeService;
 
-        public RecipesController(ILogger<RecipesController> logger, IRecipeService recipeService)
+        public RecipesController(IRecipeService recipeService)
         {
-            _logger = logger;
             _recipeService = recipeService;
         }
 

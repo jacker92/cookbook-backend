@@ -1,4 +1,6 @@
 ﻿using CookbookAPI.Models;
+using CookbookAPI.Models.Requests;
+using CookbookAPI.Models.Responses;
 using CookbookAPI.Repositories;
 using CookbookAPI.Utilities;
 using Microsoft.Extensions.Logging;
@@ -14,17 +16,14 @@ namespace CookbookAPI.Services
     {
         private readonly IMongoRepository<User> _users;
         private readonly JwtTokenGenerator _jwtTokenGenerator;
-        private readonly ILogger<UserService> _logger;
         private readonly GoogleTokenValidator _googleTokenValidator;
 
         public UserService(IMongoRepository<User> users,
             JwtTokenGenerator jwtTokenGenerator,
-            ILogger<UserService> logger,
             GoogleTokenValidator googleTokenValidator)
         {
             _users = users;
             _jwtTokenGenerator = jwtTokenGenerator;
-            _logger = logger;
             _googleTokenValidator = googleTokenValidator;
         }
 

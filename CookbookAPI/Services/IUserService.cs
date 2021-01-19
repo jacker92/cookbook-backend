@@ -1,4 +1,6 @@
 ﻿using CookbookAPI.Models;
+using CookbookAPI.Models.Requests;
+using CookbookAPI.Models.Responses;
 using System.Collections.Generic;
 
 namespace CookbookAPI.Services

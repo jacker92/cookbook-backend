@@ -1,4 +1,6 @@
 ﻿using CookbookAPI.Models;
+using CookbookAPI.Models.Requests;
+using CookbookAPI.Models.Responses;
 using CookbookAPI.Utilities;
 using MongoDB.Bson;
 

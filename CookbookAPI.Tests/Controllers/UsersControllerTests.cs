@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using CookbookAPI.Tests.TestData;
 using CookbookAPI.Utilities;
 using CookbookAPI.Repositories;
+using CookbookAPI.Models.Responses;
 
 namespace CookbookAPI.Tests.Controllers
 {
@@ -24,7 +25,7 @@ namespace CookbookAPI.Tests.Controllers
         {
             _usersRepository = new Mock<IMongoRepository<User>>();
             _logger = new Mock<ILogger<UsersController>>();
-            _usersService = new UserService(_usersRepository.Object, null, null, null);
+            _usersService = new UserService(_usersRepository.Object, null, null);
             _usersController = new UsersController(_usersService, _logger.Object);
         }
         [TestMethod()]

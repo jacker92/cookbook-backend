@@ -1,4 +1,4 @@
-﻿namespace CookbookAPI.Models
+﻿namespace CookbookAPI.Models.Responses
 {
     public class AuthenticateResponse
     {

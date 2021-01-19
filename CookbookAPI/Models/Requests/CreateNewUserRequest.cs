@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
-namespace CookbookAPI.Models
+namespace CookbookAPI.Models.Requests
 {
     public class CreateNewUserRequest
     {
