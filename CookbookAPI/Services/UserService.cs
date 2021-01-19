@@ -29,9 +29,11 @@ namespace CookbookAPI.Services
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = _users.FilterBy(x => x.UserName == model.Username &&
-                                   x.Password == model.Password &&
-                                   x.AccountType == AccountType.Internal).FirstOrDefault();
+            var user = _users.FilterBy(x => 
+                                       x.UserName.Equals(model.Username) &&
+                                       x.AccountType == AccountType.Internal &&
+                                       SecurePasswordHasher.Verify(model.Password, x.Password) 
+                                   ).FirstOrDefault();
 
             if (user == null) return null;
 
@@ -86,14 +88,15 @@ namespace CookbookAPI.Services
             try
             {
                 ValidateRequest(request);
-            } catch (ValidationException)
+            }
+            catch (ValidationException)
             {
                 return null;
             }
 
             var response = _users.FilterBy(x => x.UserName == request.UserName).FirstOrDefault();
 
-            if(response != null)
+            if (response != null)
             {
                 throw new Exception($"User with username: {request.UserName} already exists.");
             }

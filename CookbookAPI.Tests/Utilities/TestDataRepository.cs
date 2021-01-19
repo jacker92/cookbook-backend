@@ -8,7 +8,7 @@ namespace CookbookAPI.Tests.TestData
 {
     public static class TestDataRepository
     {
-        public static CreateNewUserRequest GetCreateNewUserRequest()
+        public static CreateNewUserRequest BuildCreateNewUserRequest()
         {
             return new CreateNewUserRequest
             {
@@ -19,7 +19,7 @@ namespace CookbookAPI.Tests.TestData
             };
         }
 
-        public static CreateNewUserResponse GetCreateNewUserResponse()
+        public static CreateNewUserResponse BuildCreateNewUserResponse()
         {
             return new CreateNewUserResponse
             {
@@ -31,6 +31,28 @@ namespace CookbookAPI.Tests.TestData
                     LastName = "lahtinen",
                     Password = "P@ssw0rd".Hash()
                 }
+            };
+        }
+
+        public static AuthenticateRequest BuildAuthenticateRequest()
+        {
+            return new AuthenticateRequest
+            {
+                Username = "test",
+                Password = "test",
+                GoogleToken = "test"
+            };
+        }
+
+        public static User BuildUser()
+        {
+            return new User
+            {
+                ID = new ObjectId(),
+                UserName = "test",
+                FirstName = "test",
+                LastName = "test",
+                AccountType = AccountType.Internal
             };
         }
     }
