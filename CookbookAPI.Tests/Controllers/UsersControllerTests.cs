@@ -96,6 +96,14 @@ namespace CookbookAPI.Tests.Controllers
             var result = (OkObjectResult)_usersController.Authenticate(request);
 
             Assert.IsNotNull(result);
+
+            var res = result.Value as AuthenticateResponse;
+
+            Assert.IsNotNull(res);
+            Assert.AreEqual(request.Username, res.Username);
+            Assert.AreEqual(user.FirstName, res.FirstName);
+            Assert.AreEqual(user.LastName, res.LastName);
+            Assert.AreEqual(user.UserName, res.Username);
         }
     }
 }
