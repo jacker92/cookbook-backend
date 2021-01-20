@@ -1,13 +1,13 @@
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace CookbookAPI.Models
+namespace CookbookAPI.Models.Requests
 {
-    [BsonCollection("recipes")]
-    public class Recipe : Document
+    public class CreateNewRecipeRequest
     {
-        [BsonElement("Name")]
         [Required]
         public string Name { get; set; }
 

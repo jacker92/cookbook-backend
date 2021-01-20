@@ -104,5 +104,13 @@ namespace CookbookAPI.Tests.Controllers
             Assert.AreEqual(user.LastName, res.LastName);
             Assert.AreEqual(user.UserName, res.Username);
         }
+
+        [TestMethod]
+        public void GetAll_ShouldReturnOK()
+        {
+            var result = (OkObjectResult)_usersController.GetAll();
+
+            Assert.IsNotNull(result);
+        }
     }
 }

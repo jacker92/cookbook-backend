@@ -55,5 +55,62 @@ namespace CookbookAPI.Tests.TestData
                 AccountType = AccountType.Internal
             };
         }
+
+        public static Recipe BuildRecipe()
+        {
+            return new Recipe
+            {
+                ID = new ObjectId(),
+                Name = "My Recipe",
+                Instructions = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                " Vivamus malesuada tortor lacus, non vehicula eros maximus a. Suspendisse v" +
+                "elit nibh, rhoncus id ligula sit amet, posuere malesuada nibh. Proin lobortis" +
+                ", lacus sed pulvinar varius, nisl justo congue ipsum, vel consequat lacus leo " +
+                "sit amet elit. Suspendisse lacinia purus vitae turpis aliquam, in cursus diam " +
+                "vestibulum. Vivamus quis mauris at nisl eleifend malesuada et eget mauris. Nullam" +
+                " augue nibh, maximus sit amet mattis sit amet, fermentum vitae augue. Aenean maxim" +
+                "us sit amet urna eu dapibus. Vestibulum tristique felis eu aliquet facilisis. In" +
+                "teger bibendum lacus eu interdum tincidunt."
+            };
+        }
+
+        public static CreateNewRecipeRequest BuildCreateNewRecipeRequest()
+        {
+            return new CreateNewRecipeRequest
+            {
+                Name = "My Recipe",
+                Instructions = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                " Vivamus malesuada tortor lacus, non vehicula eros maximus a. Suspendisse v" +
+                "elit nibh, rhoncus id ligula sit amet, posuere malesuada nibh. Proin lobortis" +
+                ", lacus sed pulvinar varius, nisl justo congue ipsum, vel consequat lacus leo " +
+                "sit amet elit. Suspendisse lacinia purus vitae turpis aliquam, in cursus diam " +
+                "vestibulum. Vivamus quis mauris at nisl eleifend malesuada et eget mauris. Nullam" +
+                " augue nibh, maximus sit amet mattis sit amet, fermentum vitae augue. Aenean maxim" +
+                "us sit amet urna eu dapibus. Vestibulum tristique felis eu aliquet facilisis. In" +
+                "teger bibendum lacus eu interdum tincidunt."
+            };
+        }
+
+        public static CreateNewRecipeResponse BuildCreateNewRecipeResponse()
+        {
+            return new CreateNewRecipeResponse
+            {
+                Recipe = new Recipe
+                {
+                    ID = new ObjectId(),
+                    Name = "My Recipe",
+                    Instructions = "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
+                " Vivamus malesuada tortor lacus, non vehicula eros maximus a. Suspendisse v" +
+                "elit nibh, rhoncus id ligula sit amet, posuere malesuada nibh. Proin lobortis" +
+                ", lacus sed pulvinar varius, nisl justo congue ipsum, vel consequat lacus leo " +
+                "sit amet elit. Suspendisse lacinia purus vitae turpis aliquam, in cursus diam " +
+                "vestibulum. Vivamus quis mauris at nisl eleifend malesuada et eget mauris. Nullam" +
+                " augue nibh, maximus sit amet mattis sit amet, fermentum vitae augue. Aenean maxim" +
+                "us sit amet urna eu dapibus. Vestibulum tristique felis eu aliquet facilisis. In" +
+                "teger bibendum lacus eu interdum tincidunt."
+                }
+
+            };
+        }
     }
 }

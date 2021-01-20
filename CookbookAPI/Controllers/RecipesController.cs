@@ -1,4 +1,6 @@
 ﻿using CookbookAPI.Models;
+using CookbookAPI.Models.Requests;
+using CookbookAPI.Models.Responses;
 using CookbookAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -36,11 +38,17 @@ namespace CookbookAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Recipe> Create(Recipe recipe)
+        public ActionResult<CreateNewRecipeResponse> Create(CreateNewRecipeRequest request)
         {
-            _recipeService.Create(recipe);
-
-            return CreatedAtRoute("GetRecipe", new { id = recipe.ID.ToString() }, recipe);
+            try
+            {
+                var result = _recipeService.Create(request);
+                return CreatedAtAction("GetRecipe", result);
+            }
+            catch
+            {
+                return BadRequest(new { message = "Could not create recipe" });
+            }
         }
 
         [HttpPut("{id:length(24)}")]

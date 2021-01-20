@@ -1,7 +1,13 @@
 ﻿using CookbookAPI.Models;
+using CookbookAPI.Models.Requests;
+using CookbookAPI.Models.Responses;
 using CookbookAPI.Repositories;
+using CookbookAPI.Utilities;
+using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace CookbookAPI.Services
@@ -18,10 +24,18 @@ namespace CookbookAPI.Services
         public Recipe Get(string id) =>
            _recipeRepository.FindById(id);
 
-        public Recipe Create(Recipe recipe)
+        public CreateNewRecipeResponse Create(CreateNewRecipeRequest createNewRecipeRequest)
         {
+            ModelValidator.Validate(createNewRecipeRequest);
+            var recipe = new Recipe()
+            {
+                ID = new ObjectId(),
+                Name = createNewRecipeRequest.Name,
+                Instructions = createNewRecipeRequest.Instructions
+            };
+
             _recipeRepository.InsertOne(recipe);
-            return recipe;
+            return new CreateNewRecipeResponse { Recipe = recipe };
         }
 
         public void Update(Recipe recipe) =>
