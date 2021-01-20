@@ -112,5 +112,27 @@ namespace CookbookAPI.Tests.Controllers
             var res = result as NotFoundResult;
             Assert.IsNotNull(res);
         }
+
+        [TestMethod]
+        public void Delete_ShouldReturnNoContent_WhenDeletingExistingRecipe()
+        {
+            var recipe = TestDataRepository.BuildRecipe();
+            _repository.Setup(x => x.FindById(recipe.ID.ToString())).Returns(recipe);
+            var result = _recipesController.Delete(recipe.ID.ToString());
+
+            var res = result as NoContentResult;
+            Assert.IsNotNull(res);
+        }
+
+
+        [TestMethod]
+        public void Delete_ShouldReturnNotFound_WhenDeletingNonExistingRecipe()
+        {
+            var recipe = TestDataRepository.BuildRecipe();
+            var result = _recipesController.Delete(recipe.ID.ToString());
+
+            var res = result as NotFoundResult;
+            Assert.IsNotNull(res);
+        }
     }
 }
