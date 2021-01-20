@@ -54,7 +54,7 @@ namespace CookbookAPI.Controllers
             {
                 var res = _userService.Create(request);
 
-                if(res == null)
+                if (res == null)
                     return BadRequest(new { message = "Could not create user" });
 
                 return Ok(res);

@@ -10,7 +10,7 @@ namespace CookbookAPI.Models.Requests
         [Required]
         public string LastName { get; set; }
         [Required]
-        public string  UserName { get; set; }
+        public string UserName { get; set; }
         [JsonIgnore]
         [Required]
         public string Password { get; set; }

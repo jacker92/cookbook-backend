@@ -1,16 +1,16 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Microsoft.Extensions.Logging;
-using CookbookAPI.Controllers.WebApi.Controllers;
-using CookbookAPI.Services;
+﻿using CookbookAPI.Controllers.WebApi.Controllers;
 using CookbookAPI.Models;
-using Microsoft.AspNetCore.Mvc;
-using CookbookAPI.Tests.TestData;
-using CookbookAPI.Utilities;
-using CookbookAPI.Repositories;
 using CookbookAPI.Models.Responses;
-using System.Collections.Generic;
+using CookbookAPI.Repositories;
+using CookbookAPI.Services;
+using CookbookAPI.Tests.TestData;
 using CookbookAPI.Tests.Utilities;
+using CookbookAPI.Utilities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using System.Collections.Generic;
 
 namespace CookbookAPI.Tests.Controllers
 {
@@ -27,8 +27,8 @@ namespace CookbookAPI.Tests.Controllers
         {
             _usersRepository = new Mock<IMongoRepository<User>>();
             _logger = new Mock<ILogger<UsersController>>();
-            _usersService = new UserService(_usersRepository.Object, 
-                                            new JwtTokenGenerator(TestHelper.CreateTestAppSettings()), 
+            _usersService = new UserService(_usersRepository.Object,
+                                            new JwtTokenGenerator(TestHelper.CreateTestAppSettings()),
                                             new GoogleTokenValidator());
             _usersController = new UsersController(_usersService, _logger.Object);
         }

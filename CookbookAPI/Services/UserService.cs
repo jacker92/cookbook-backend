@@ -28,10 +28,10 @@ namespace CookbookAPI.Services
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = _users.FilterBy(x => 
+            var user = _users.FilterBy(x =>
                                        x.UserName.Equals(model.Username) &&
                                        x.AccountType == AccountType.Internal &&
-                                       SecurePasswordHasher.Verify(model.Password, x.Password) 
+                                       SecurePasswordHasher.Verify(model.Password, x.Password)
                                    ).FirstOrDefault();
 
             if (user == null) return null;
