@@ -16,5 +16,5 @@ jobs:
         APP_NAME: ${{ 'cookbook-backend-api' }}
       run: |
         docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-        heroku container:push web -a $APP_NAME --arg CONNECTION_STRING=${{ secrets.CONNECTION_STRING }} DATABASE_NAME=${{ secrets.DATABASE_NAME }}
+        heroku container:push web -a $APP_NAME --arg CONNECTION_STRING=${{ secrets.CONNECTION_STRING }} --arg DATABASE_NAME=${{ secrets.DATABASE_NAME }}
         heroku container:release web -a $APP_NAME
