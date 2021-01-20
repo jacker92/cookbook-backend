@@ -13,21 +13,24 @@ namespace CookbookAPI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment WebHostEnvironment { get; set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // requires using Microsoft.Extensions.Options
-            services.Configure<MongoDbSettings>(
-                Configuration.GetSection(nameof(MongoDbSettings)));
 
-            services.AddSingleton<IMongoDBSettings>(sp =>
-                sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
+            if (WebHostEnvironment.IsDevelopment())
+            {
+                services.Configure<MongoDbSettings>(
+               Configuration.GetSection(nameof(MongoDbSettings)));
+                services.AddSingleton<IMongoDBSettings>(sp =>
+                  sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
+            }
 
             services.AddTransient<IMongoRepository<Recipe>, MongoRepository<Recipe>>();
             services.AddTransient<IMongoRepository<User>, MongoRepository<User>>();
