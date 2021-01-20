@@ -24,12 +24,13 @@ namespace CookbookAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IMongoDBSettings>(sp =>
+            sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
+
             if (WebHostEnvironment.IsDevelopment())
             {
                 services.Configure<MongoDbSettings>(
                Configuration.GetSection(nameof(MongoDbSettings)));
-                services.AddSingleton<IMongoDBSettings>(sp =>
-                  sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
             }
 
             services.AddTransient<IMongoRepository<Recipe>, MongoRepository<Recipe>>();
