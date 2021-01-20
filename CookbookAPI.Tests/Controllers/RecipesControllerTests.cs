@@ -90,5 +90,27 @@ namespace CookbookAPI.Tests.Controllers
             var res = result.Result as BadRequestObjectResult;
             Assert.IsNotNull(res);
         }
+
+        [TestMethod]
+        public void Update_ShouldReturnNoContent_WhenUpdatedExistingRecipe()
+        {
+            var recipe = TestDataRepository.BuildRecipe();
+            _repository.Setup(x => x.FindById(recipe.ID.ToString())).Returns(recipe);
+            var result = _recipesController.Update(recipe);
+
+            var res = result as NoContentResult;
+            Assert.IsNotNull(res);
+        }
+
+
+        [TestMethod]
+        public void Update_ShouldReturnNotFound_WhenUpdatedNonExistingRecipe()
+        {
+            var recipe = TestDataRepository.BuildRecipe();
+            var result = _recipesController.Update(recipe);
+
+            var res = result as NotFoundResult;
+            Assert.IsNotNull(res);
+        }
     }
 }

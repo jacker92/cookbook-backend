@@ -52,16 +52,16 @@ namespace CookbookAPI.Controllers
         }
 
         [HttpPut("{id:length(24)}")]
-        public IActionResult Update(string id, Recipe recipeIn)
+        public IActionResult Update(Recipe recipe)
         {
-            var book = _recipeService.Get(id);
+            var result = _recipeService.Get(recipe.ID.ToString());
 
-            if (book == null)
+            if (result == null)
             {
                 return NotFound();
             }
 
-            _recipeService.Update(recipeIn);
+            _recipeService.Update(result);
 
             return NoContent();
         }
