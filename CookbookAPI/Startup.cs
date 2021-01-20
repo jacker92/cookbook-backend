@@ -16,6 +16,7 @@ namespace CookbookAPI
         public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             Configuration = configuration;
+            WebHostEnvironment = webHostEnvironment;
         }
 
         public IConfiguration Configuration { get; }
@@ -23,7 +24,6 @@ namespace CookbookAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             if (WebHostEnvironment.IsDevelopment())
             {
                 services.Configure<MongoDbSettings>(
