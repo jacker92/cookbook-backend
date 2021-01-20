@@ -19,8 +19,10 @@ namespace CookbookAPI.Services
             _recipeRepository = recipeRepository;
         }
 
-        public Recipe Get(string id) =>
-           _recipeRepository.FindById(id);
+        public Recipe Get(string id)
+        {
+            return _recipeRepository.FindById(id);
+        }
 
         public CreateNewRecipeResponse Create(CreateNewRecipeRequest createNewRecipeRequest)
         {
@@ -36,15 +38,24 @@ namespace CookbookAPI.Services
             return new CreateNewRecipeResponse { Recipe = recipe };
         }
 
-        public void Update(Recipe recipe) =>
+        public void Update(Recipe recipe)
+        {
             _recipeRepository.ReplaceOne(recipe);
+        }
 
-        public void Remove(Recipe recipeIn) =>
+        public void Remove(Recipe recipeIn)
+        {
             _recipeRepository.DeleteOne(recipe => recipe.ID == recipeIn.ID);
+        }
 
-        public void Remove(string id) =>
+        public void Remove(string id)
+        {
             _recipeRepository.DeleteOne(recipe => recipe.ID.ToString() == id);
+        }
 
-        public IList<Recipe> Get() => _recipeRepository.AsQueryable().ToList();
+        public IList<Recipe> Get()
+        {
+            return _recipeRepository.AsQueryable().ToList();
+        }
     }
 }
