@@ -2,6 +2,7 @@
 using CookbookAPI.Models.Requests;
 using CookbookAPI.Models.Responses;
 using CookbookAPI.Services;
+using CookbookAPI.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -37,6 +38,7 @@ namespace CookbookAPI.Controllers
             return recipe;
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult<CreateNewRecipeResponse> Create(CreateNewRecipeRequest request)
         {
@@ -51,6 +53,7 @@ namespace CookbookAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("{id:length(24)}")]
         public IActionResult Update(Recipe recipe)
         {
@@ -66,6 +69,7 @@ namespace CookbookAPI.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpDelete("{id:length(24)}")]
         public IActionResult Delete(string id)
         {
