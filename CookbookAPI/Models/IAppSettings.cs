@@ -1,6 +1,6 @@
 ﻿namespace CookbookAPI.Models
 {
-    public interface IMongoDBSettings
+    public interface IAppSettings
     {
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }

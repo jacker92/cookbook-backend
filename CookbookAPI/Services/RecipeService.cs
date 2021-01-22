@@ -3,6 +3,7 @@ using CookbookAPI.Models.Requests;
 using CookbookAPI.Models.Responses;
 using CookbookAPI.Repositories;
 using CookbookAPI.Utilities;
+using Microsoft.AspNetCore.Http;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
@@ -13,10 +14,11 @@ namespace CookbookAPI.Services
     public class RecipeService : IRecipeService
     {
         private readonly IMongoRepository<Recipe> _recipeRepository;
-
-        public RecipeService(IMongoRepository<Recipe> recipeRepository)
+        private readonly IHttpContextAccessor _httpContext;
+        public RecipeService(IMongoRepository<Recipe> recipeRepository, IHttpContextAccessor httpContext)
         {
             _recipeRepository = recipeRepository;
+            _httpContext = httpContext;
         }
 
         public Recipe Get(string id)
@@ -31,7 +33,10 @@ namespace CookbookAPI.Services
             {
                 ID = new ObjectId(),
                 Name = createNewRecipeRequest.Name,
-                Instructions = createNewRecipeRequest.Instructions
+                Instructions = createNewRecipeRequest.Instructions,
+                Ingredients = createNewRecipeRequest.Ingredients,
+                URL = createNewRecipeRequest.URL,
+                Author = _httpContext.HttpContext.Items["User"] as User
             };
 
             _recipeRepository.InsertOne(recipe);

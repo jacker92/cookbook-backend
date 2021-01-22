@@ -30,11 +30,10 @@ namespace CookbookAPI.Services
         {
             var user = _users.FilterBy(x =>
                                        x.UserName.Equals(model.Username) &&
-                                       x.AccountType == AccountType.Internal &&
-                                       SecurePasswordHasher.Verify(model.Password, x.Password)
-                                   ).FirstOrDefault();
+                                       x.AccountType == AccountType.Internal).FirstOrDefault();
 
-            if (user == null) return null;
+            if (user == null ||
+                !SecurePasswordHasher.Verify(model.Password, user.Password)) return null;
 
             var token = _jwtTokenGenerator.GenerateJwtToken(user);
 

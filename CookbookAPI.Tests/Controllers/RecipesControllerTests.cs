@@ -4,6 +4,7 @@ using CookbookAPI.Models.Responses;
 using CookbookAPI.Repositories;
 using CookbookAPI.Services;
 using CookbookAPI.Tests.TestData;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Bson;
@@ -18,12 +19,17 @@ namespace CookbookAPI.Tests.Controllers
         private RecipesController _recipesController;
         private RecipeService _recipeService;
         private Mock<IMongoRepository<Recipe>> _repository;
+        private Mock<IHttpContextAccessor> _httpContextAccessor;
+        private User _user;
 
         [TestInitialize]
         public void InitTests()
         {
             _repository = new Mock<IMongoRepository<Recipe>>();
-            _recipeService = new RecipeService(_repository.Object);
+            _httpContextAccessor = new Mock<IHttpContextAccessor>();
+            _user = TestDataRepository.BuildUser();
+            _httpContextAccessor.Setup(x => x.HttpContext.Items["User"]).Returns(_user);
+            _recipeService = new RecipeService(_repository.Object, _httpContextAccessor.Object);
             _recipesController = new RecipesController(_recipeService);
         }
 
@@ -73,6 +79,9 @@ namespace CookbookAPI.Tests.Controllers
 
             Assert.AreEqual(value.Recipe.Name, recipeRequest.Name);
             Assert.AreEqual(value.Recipe.Instructions, recipeRequest.Instructions);
+            Assert.AreEqual(value.Recipe.Ingredients, recipeRequest.Ingredients);
+            Assert.AreEqual(value.Recipe.URL, recipeRequest.URL);
+            Assert.AreEqual(value.Recipe.Author, _user);
         }
 
         [TestMethod]
@@ -99,7 +108,6 @@ namespace CookbookAPI.Tests.Controllers
             Assert.IsNotNull(res);
         }
 
-
         [TestMethod]
         public void Update_ShouldReturnNotFound_WhenUpdatedNonExistingRecipe()
         {
@@ -120,7 +128,6 @@ namespace CookbookAPI.Tests.Controllers
             var res = result as NoContentResult;
             Assert.IsNotNull(res);
         }
-
 
         [TestMethod]
         public void Delete_ShouldReturnNotFound_WhenDeletingNonExistingRecipe()

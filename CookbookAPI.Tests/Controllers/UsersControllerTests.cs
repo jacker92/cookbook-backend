@@ -88,8 +88,7 @@ namespace CookbookAPI.Tests.Controllers
             var user = TestDataRepository.BuildUser();
 
             _usersRepository.Setup(x => x.FilterBy(x => x.UserName.Equals(request.Username) &&
-                                    x.AccountType == AccountType.Internal &&
-                                    SecurePasswordHasher.Verify(request.Password, x.Password))
+                                    x.AccountType == AccountType.Internal)
                                     ).Returns(new List<User> { user });
 
             var result = (OkObjectResult)_usersController.Authenticate(request);
@@ -103,6 +102,24 @@ namespace CookbookAPI.Tests.Controllers
             Assert.AreEqual(user.FirstName, res.FirstName);
             Assert.AreEqual(user.LastName, res.LastName);
             Assert.AreEqual(user.UserName, res.Username);
+        }
+
+        [TestMethod()]
+        public void Authenticate_WhenCalledWithIncorrectPassword_ShouldReturnNotAuthorized()
+        {
+            var request = TestDataRepository.BuildAuthenticateRequest();
+            request.GoogleToken = null;
+
+            var user = TestDataRepository.BuildUser();
+            user.Password = "asdf".Hash();
+
+            _usersRepository.Setup(x => x.FilterBy(x => x.UserName.Equals(request.Username) &&
+                                    x.AccountType == AccountType.Internal)
+                                    ).Returns(new List<User> { user });
+
+            var result = (BadRequestObjectResult)_usersController.Authenticate(request);
+
+            Assert.IsNotNull(result);
         }
 
         [TestMethod]

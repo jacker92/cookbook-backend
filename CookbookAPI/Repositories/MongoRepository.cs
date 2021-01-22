@@ -14,7 +14,7 @@ namespace CookbookAPI.Repositories
     {
         private readonly IMongoCollection<TDocument> _collection;
 
-        public MongoRepository(IMongoDBSettings settings)
+        public MongoRepository(IAppSettings settings)
         {
             var database = new MongoClient(settings.ConnectionString).GetDatabase(settings.DatabaseName);
             _collection = database.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));

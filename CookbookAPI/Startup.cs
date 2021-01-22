@@ -4,6 +4,7 @@ using CookbookAPI.Services;
 using CookbookAPI.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,13 +25,13 @@ namespace CookbookAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IMongoDBSettings>(sp =>
-            sp.GetRequiredService<IOptions<MongoDbSettings>>().Value);
+            services.AddSingleton((System.Func<System.IServiceProvider, IAppSettings>)(sp =>
+            sp.GetRequiredService<IOptions<Models.AppSettings>>().Value));
 
             if (WebHostEnvironment.IsDevelopment())
             {
-                services.Configure<MongoDbSettings>(
-               Configuration.GetSection(nameof(MongoDbSettings)));
+                services.Configure<Models.AppSettings>(
+               Configuration.GetSection(nameof(Models.AppSettings)));
             }
 
             services.AddTransient<IMongoRepository<Recipe>, MongoRepository<Recipe>>();
@@ -44,6 +45,7 @@ namespace CookbookAPI
             services.AddCors();
 
             services.AddControllers();
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

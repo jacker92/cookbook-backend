@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System.Text.Json.Serialization;
 
 namespace CookbookAPI.Models
 {
@@ -8,9 +10,9 @@ namespace CookbookAPI.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
+        [BsonRepresentation(BsonType.Int32)]
         public AccountType AccountType { get; set; }
 
-        [JsonIgnore]
         public string Password { get; set; }
     }
 }

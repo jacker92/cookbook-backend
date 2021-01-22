@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CookbookAPI.Models.Requests
 {
@@ -9,5 +10,10 @@ namespace CookbookAPI.Models.Requests
 
         [Required]
         public string Instructions { get; set; }
+
+        [Required]
+        public IList<RecipeIncredient> Ingredients { get; set; }
+
+        public string URL { get; set; }
     }
 }

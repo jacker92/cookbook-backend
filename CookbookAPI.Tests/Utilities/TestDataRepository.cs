@@ -3,6 +3,7 @@ using CookbookAPI.Models.Requests;
 using CookbookAPI.Models.Responses;
 using CookbookAPI.Utilities;
 using MongoDB.Bson;
+using System.Collections.Generic;
 
 namespace CookbookAPI.Tests.TestData
 {
@@ -39,7 +40,7 @@ namespace CookbookAPI.Tests.TestData
             return new AuthenticateRequest
             {
                 Username = "test",
-                Password = "test",
+                Password = "P@ssw0rd",
                 GoogleToken = "test"
             };
         }
@@ -52,7 +53,8 @@ namespace CookbookAPI.Tests.TestData
                 UserName = "test",
                 FirstName = "test",
                 LastName = "test",
-                AccountType = AccountType.Internal
+                AccountType = AccountType.Internal,
+                Password = "P@ssw0rd".Hash()
             };
         }
 
@@ -87,7 +89,20 @@ namespace CookbookAPI.Tests.TestData
                 "vestibulum. Vivamus quis mauris at nisl eleifend malesuada et eget mauris. Nullam" +
                 " augue nibh, maximus sit amet mattis sit amet, fermentum vitae augue. Aenean maxim" +
                 "us sit amet urna eu dapibus. Vestibulum tristique felis eu aliquet facilisis. In" +
-                "teger bibendum lacus eu interdum tincidunt."
+                "teger bibendum lacus eu interdum tincidunt.",
+                Ingredients = new List<RecipeIncredient>
+                {
+                    new RecipeIncredient
+                    {
+                        Ingredient = new Incredient
+                        {
+                            Name = "Potato"
+                        },
+                        Amount = 1.5,
+                        UnitOfMeasurement = UnitOfMeasurement.kg
+                    }
+                },
+                URL = "www.google.fi"
             };
         }
 

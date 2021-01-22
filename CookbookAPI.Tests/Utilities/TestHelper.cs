@@ -1,4 +1,5 @@
-﻿using CookbookAPI.Utilities;
+﻿using CookbookAPI.Models;
+using CookbookAPI.Utilities;
 using Microsoft.Extensions.Options;
 using Moq;
 
