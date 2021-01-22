@@ -12,7 +12,7 @@ FROM build AS testing
 WORKDIR /src/CookbookAPI
 RUN dotnet build
 WORKDIR /src/CookbookAPI.Tests
-RUN dotnet test
+RUN dotnet test || exit 1
 
 # Publish
 FROM build AS publish
