@@ -39,7 +39,7 @@ namespace CookbookAPI.Tests.TestData
         {
             return new AuthenticateRequest
             {
-                Username = "test",
+                UserName = "test",
                 Password = "P@ssw0rd",
                 GoogleToken = "test"
             };

@@ -5,7 +5,7 @@ namespace CookbookAPI.Services
 {
     public interface ILoginService
     {
-        AuthenticateResponse Authenticate(AuthenticateRequest model);
-        AuthenticateResponse AuthenticateWithGoogle(AuthenticateRequest model);
+        AuthenticateResponse Authenticate(BasicAuthenticateRequest request);
+        AuthenticateResponse AuthenticateWithGoogle(GoogleAuthenticateRequest request);
     }
 }

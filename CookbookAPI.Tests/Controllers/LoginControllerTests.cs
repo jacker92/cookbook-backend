@@ -10,7 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
 
 namespace CookbookAPI.Tests.Controllers
 {
@@ -44,7 +47,7 @@ namespace CookbookAPI.Tests.Controllers
         }
 
         [TestMethod()]
-        public void Login_WhenCalledWithInvalidSetup_ShouldReturnBadResult()
+        public void Login_WhenCalledWithNoMatchDatabase_ShouldReturnBadResult()
         {
             var request = TestDataRepository.BuildAuthenticateRequest();
             request.GoogleToken = null;
@@ -62,9 +65,8 @@ namespace CookbookAPI.Tests.Controllers
 
             var user = TestDataRepository.BuildUser();
 
-            _usersRepository.Setup(x => x.FilterBy(x => x.UserName.Equals(request.Username) &&
-                                    x.AccountType == AccountType.Internal)
-                                    ).Returns(new List<User> { user });
+            _usersRepository.Setup(x => x.FilterBy(It.IsAny<Expression<Func<User,bool>>>()))
+                .Returns(new List<User> { user });
 
             var result = (OkObjectResult)_loginController.Login(request);
 
@@ -73,10 +75,28 @@ namespace CookbookAPI.Tests.Controllers
             var res = result.Value as AuthenticateResponse;
 
             Assert.IsNotNull(res);
-            Assert.AreEqual(request.Username, res.Username);
+            Assert.AreEqual(request.UserName, res.Username);
             Assert.AreEqual(user.FirstName, res.FirstName);
             Assert.AreEqual(user.LastName, res.LastName);
             Assert.AreEqual(user.UserName, res.Username);
+        }
+
+        [TestMethod()]
+        [ExpectedException(typeof(ValidationException))]
+        public void Login_WhenCalledWithPasswordMissing_ShouldReturnValidationError()
+        {
+            var request = TestDataRepository.BuildAuthenticateRequest();
+            request.GoogleToken = null;
+            request.Password = null;
+
+            var user = TestDataRepository.BuildUser();
+
+            _usersRepository.Setup(x => x.FilterBy(It.IsAny<Expression<Func<User, bool>>>()))
+                .Returns(new List<User> { user });
+
+            var result = (OkObjectResult)_loginController.Login(request);
+
+            Assert.Fail("Expected validationexception to occur");
         }
 
         [TestMethod()]
@@ -88,7 +108,7 @@ namespace CookbookAPI.Tests.Controllers
             var user = TestDataRepository.BuildUser();
             user.Password = "asdf".Hash();
 
-            _usersRepository.Setup(x => x.FilterBy(x => x.UserName.Equals(request.Username) &&
+            _usersRepository.Setup(x => x.FilterBy(x => x.UserName.Equals(request.UserName) &&
                                     x.AccountType == AccountType.Internal)
                                     ).Returns(new List<User> { user });
 

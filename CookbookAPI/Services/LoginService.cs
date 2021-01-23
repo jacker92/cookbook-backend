@@ -19,10 +19,9 @@ namespace CookbookAPI.Services
             _users = users;
         }
 
-        public AuthenticateResponse Authenticate(AuthenticateRequest model)
+        public AuthenticateResponse Authenticate(BasicAuthenticateRequest model)
         {
-            var user = _users.FilterBy(x =>
-                                       x.UserName.Equals(model.Username) &&
+            var user = _users.FilterBy(x => x.UserName.Equals(model.UserName) &&
                                        x.AccountType == AccountType.Internal).FirstOrDefault();
 
             if (user == null ||
@@ -33,7 +32,7 @@ namespace CookbookAPI.Services
             return new AuthenticateResponse(user, token);
         }
 
-        public AuthenticateResponse AuthenticateWithGoogle(AuthenticateRequest request)
+        public AuthenticateResponse AuthenticateWithGoogle(GoogleAuthenticateRequest request)
         {
             var result = _googleTokenValidator.ValidateGoogleToken(request)?.Result;
 

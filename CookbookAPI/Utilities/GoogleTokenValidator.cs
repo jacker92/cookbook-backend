@@ -9,7 +9,7 @@ namespace CookbookAPI.Utilities
     public class GoogleTokenValidator
     {
         private readonly string GOOGLE_TOKEN_API_BASE = @"https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=";
-        public async Task<GoogleAuthenticateResponse> ValidateGoogleToken(AuthenticateRequest model)
+        public async Task<GoogleAuthenticateResponse> ValidateGoogleToken(GoogleAuthenticateRequest model)
         {
             using (var client = new HttpClient())
             {
