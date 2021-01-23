@@ -31,7 +31,7 @@ namespace CookbookAPI
             if (WebHostEnvironment.IsDevelopment())
             {
                 services.Configure<Models.AppSettings>(
-               Configuration.GetSection(nameof(Models.AppSettings)));
+               Configuration.GetSection(nameof(AppSettings)));
             }
 
             services.AddTransient<IMongoRepository<Recipe>, MongoRepository<Recipe>>();
@@ -39,6 +39,7 @@ namespace CookbookAPI
 
             services.AddScoped<IRecipeService, RecipeService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ILoginService, LoginService>();
 
             services.AddScoped<JwtTokenGenerator>();
             services.AddScoped<GoogleTokenValidator>();

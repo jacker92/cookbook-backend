@@ -14,11 +14,11 @@ namespace CookbookAPI.Controllers
     public class LoginController : Controller
     {
         private readonly ILogger<LoginController> _logger;
-        private readonly IUserService _userService;
+        private readonly ILoginService _loginService;
 
-        public LoginController(IUserService userService, ILogger<LoginController> logger)
+        public LoginController(ILoginService loginService, ILogger<LoginController> logger)
         {
-            _userService = userService;
+            _loginService = loginService;
             _logger = logger;
         }
 
@@ -34,14 +34,14 @@ namespace CookbookAPI.Controllers
 
             if (model.GoogleToken != null)
             {
-                var response = _userService.AuthenticateWithGoogle(model);
+                var response = _loginService.AuthenticateWithGoogle(model);
                 if (response == null)
                     return BadRequest(new { message = "Invalid token" });
 
                 return Ok(response);
             }
 
-            var res = _userService.Authenticate(model);
+            var res = _loginService.Authenticate(model);
 
             if (res == null)
                 return BadRequest(new { message = "Username or password is incorrect" });

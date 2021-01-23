@@ -21,7 +21,7 @@ namespace CookbookAPI.Tests.Controllers
     {
         private LoginController _loginController;
         private Mock<IMongoRepository<User>> _usersRepository;
-        private UserService _userService;
+        private ILoginService _userService;
         private ILogger<LoginController> _logger;
 
         [TestInitialize]
@@ -29,9 +29,9 @@ namespace CookbookAPI.Tests.Controllers
         {
             _logger = new Mock<ILogger<LoginController>>().Object;
             _usersRepository = new Mock<IMongoRepository<User>>();
-            _userService = new UserService(_usersRepository.Object,
-                                            new JwtTokenGenerator(TestHelper.CreateTestAppSettings()),
-                                            new GoogleTokenValidator());
+            _userService = new LoginService(new JwtTokenGenerator(TestHelper.CreateTestAppSettings()),
+                                            new GoogleTokenValidator(),
+                                            _usersRepository.Object);
             _loginController = new LoginController(_userService, _logger);
         }
 

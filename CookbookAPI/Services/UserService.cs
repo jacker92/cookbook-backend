@@ -14,61 +14,10 @@ namespace CookbookAPI.Services
     public class UserService : IUserService
     {
         private readonly IMongoRepository<User> _users;
-        private readonly JwtTokenGenerator _jwtTokenGenerator;
-        private readonly GoogleTokenValidator _googleTokenValidator;
 
-        public UserService(IMongoRepository<User> users,
-            JwtTokenGenerator jwtTokenGenerator,
-            GoogleTokenValidator googleTokenValidator)
+        public UserService(IMongoRepository<User> users)
         {
             _users = users;
-            _jwtTokenGenerator = jwtTokenGenerator;
-            _googleTokenValidator = googleTokenValidator;
-        }
-
-        public AuthenticateResponse Authenticate(AuthenticateRequest model)
-        {
-            var user = _users.FilterBy(x =>
-                                       x.UserName.Equals(model.Username) &&
-                                       x.AccountType == AccountType.Internal).FirstOrDefault();
-
-            if (user == null ||
-                !SecurePasswordHasher.Verify(model.Password, user.Password)) return null;
-
-            var token = _jwtTokenGenerator.GenerateJwtToken(user);
-
-            return new AuthenticateResponse(user, token);
-        }
-
-        public AuthenticateResponse AuthenticateWithGoogle(AuthenticateRequest request)
-        {
-            var result = _googleTokenValidator.ValidateGoogleToken(request)?.Result;
-
-            if (result == null)
-            {
-                return null;
-            }
-
-            var user = _users.FilterBy(x => x.UserName == result.Email).FirstOrDefault();
-
-            var userResult = user ?? CreateFromGoogleInfo(result);
-
-            var token = _jwtTokenGenerator.GenerateJwtToken(userResult);
-
-            return new AuthenticateResponse(userResult, token);
-        }
-
-        private User CreateFromGoogleInfo(GoogleAuthenticateResponse result)
-        {
-            var user = new User
-            {
-                AccountType = AccountType.Google,
-                FirstName = result.Given_Name,
-                LastName = result.Family_Name,
-                UserName = result.Email
-            };
-            _users.InsertOne(user);
-            return user;
         }
 
         public IEnumerable<User> GetAll()

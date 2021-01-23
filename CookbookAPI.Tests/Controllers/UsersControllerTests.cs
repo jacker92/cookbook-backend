@@ -18,16 +18,14 @@ namespace CookbookAPI.Tests.Controllers
     public class UsersControllerTests
     {
         private UsersController _usersController;
-        private UserService _usersService;
+        private IUserService _usersService;
         private Mock<IMongoRepository<User>> _usersRepository;
 
         [TestInitialize]
         public void InitTests()
         {
             _usersRepository = new Mock<IMongoRepository<User>>();
-            _usersService = new UserService(_usersRepository.Object,
-                                            new JwtTokenGenerator(TestHelper.CreateTestAppSettings()),
-                                            new GoogleTokenValidator());
+            _usersService = new UserService(_usersRepository.Object);
             _usersController = new UsersController(_usersService);
         }
         [TestMethod()]
