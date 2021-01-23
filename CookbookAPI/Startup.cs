@@ -42,7 +42,17 @@ namespace CookbookAPI
 
             services.AddScoped<JwtTokenGenerator>();
             services.AddScoped<GoogleTokenValidator>();
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                    });
+            });
 
             services.AddControllers();
             services.AddHttpContextAccessor();
@@ -60,10 +70,7 @@ namespace CookbookAPI
 
             app.UseRouting();
 
-            app.UseCors(x => x
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader());
+            app.UseCors();
 
             // custom jwt auth middleware
             app.UseMiddleware<JwtMiddleware>();
