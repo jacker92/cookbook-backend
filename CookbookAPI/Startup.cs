@@ -4,7 +4,6 @@ using CookbookAPI.Services;
 using CookbookAPI.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,11 +25,11 @@ namespace CookbookAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton((System.Func<System.IServiceProvider, IAppSettings>)(sp =>
-            sp.GetRequiredService<IOptions<Models.AppSettings>>().Value));
+            sp.GetRequiredService<IOptions<AppSettings>>().Value));
 
             if (WebHostEnvironment.IsDevelopment())
             {
-                services.Configure<Models.AppSettings>(
+                services.Configure<AppSettings>(
                Configuration.GetSection(nameof(AppSettings)));
             }
 

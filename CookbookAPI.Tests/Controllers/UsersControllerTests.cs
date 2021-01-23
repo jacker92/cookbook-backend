@@ -4,13 +4,10 @@ using CookbookAPI.Models.Responses;
 using CookbookAPI.Repositories;
 using CookbookAPI.Services;
 using CookbookAPI.Tests.TestData;
-using CookbookAPI.Tests.Utilities;
 using CookbookAPI.Utilities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Collections.Generic;
 
 namespace CookbookAPI.Tests.Controllers
 {

@@ -2,8 +2,6 @@
 using CookbookAPI.Services;
 using CookbookAPI.Utilities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
 
 namespace CookbookAPI.Controllers
 {
