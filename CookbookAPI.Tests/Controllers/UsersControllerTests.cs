@@ -19,18 +19,16 @@ namespace CookbookAPI.Tests.Controllers
     {
         private UsersController _usersController;
         private UserService _usersService;
-        private Mock<ILogger<UsersController>> _logger;
         private Mock<IMongoRepository<User>> _usersRepository;
 
         [TestInitialize]
         public void InitTests()
         {
             _usersRepository = new Mock<IMongoRepository<User>>();
-            _logger = new Mock<ILogger<UsersController>>();
             _usersService = new UserService(_usersRepository.Object,
                                             new JwtTokenGenerator(TestHelper.CreateTestAppSettings()),
                                             new GoogleTokenValidator());
-            _usersController = new UsersController(_usersService, _logger.Object);
+            _usersController = new UsersController(_usersService);
         }
         [TestMethod()]
         public void Create_ShouldReturnOK_IfCalledWithCorrectModel()
@@ -54,70 +52,6 @@ namespace CookbookAPI.Tests.Controllers
             request.Password = null;
 
             var result = (BadRequestObjectResult)_usersController.Create(request);
-
-            Assert.IsNotNull(result);
-        }
-
-        [TestMethod()]
-        public void Authenticate_WhenCalledWithInvalidGoogleToken_ShouldReturnBadResult()
-        {
-            var request = TestDataRepository.BuildAuthenticateRequest();
-
-            var result = (BadRequestObjectResult)_usersController.Authenticate(request);
-
-            Assert.IsNotNull(result);
-        }
-
-        [TestMethod()]
-        public void Authenticate_WhenCalledWithInvalidSetup_ShouldReturnBadResult()
-        {
-            var request = TestDataRepository.BuildAuthenticateRequest();
-            request.GoogleToken = null;
-
-            var result = (BadRequestObjectResult)_usersController.Authenticate(request);
-
-            Assert.IsNotNull(result);
-        }
-
-        [TestMethod()]
-        public void Authenticate_WhenCalledWithCorrectUserNameAndPassword_ShouldReturnOk()
-        {
-            var request = TestDataRepository.BuildAuthenticateRequest();
-            request.GoogleToken = null;
-
-            var user = TestDataRepository.BuildUser();
-
-            _usersRepository.Setup(x => x.FilterBy(x => x.UserName.Equals(request.Username) &&
-                                    x.AccountType == AccountType.Internal)
-                                    ).Returns(new List<User> { user });
-
-            var result = (OkObjectResult)_usersController.Authenticate(request);
-
-            Assert.IsNotNull(result);
-
-            var res = result.Value as AuthenticateResponse;
-
-            Assert.IsNotNull(res);
-            Assert.AreEqual(request.Username, res.Username);
-            Assert.AreEqual(user.FirstName, res.FirstName);
-            Assert.AreEqual(user.LastName, res.LastName);
-            Assert.AreEqual(user.UserName, res.Username);
-        }
-
-        [TestMethod()]
-        public void Authenticate_WhenCalledWithIncorrectPassword_ShouldReturnNotAuthorized()
-        {
-            var request = TestDataRepository.BuildAuthenticateRequest();
-            request.GoogleToken = null;
-
-            var user = TestDataRepository.BuildUser();
-            user.Password = "asdf".Hash();
-
-            _usersRepository.Setup(x => x.FilterBy(x => x.UserName.Equals(request.Username) &&
-                                    x.AccountType == AccountType.Internal)
-                                    ).Returns(new List<User> { user });
-
-            var result = (BadRequestObjectResult)_usersController.Authenticate(request);
 
             Assert.IsNotNull(result);
         }

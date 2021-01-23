@@ -14,39 +14,10 @@ namespace CookbookAPI.Controllers
         public class UsersController : ControllerBase
         {
             private readonly IUserService _userService;
-            private readonly ILogger<UsersController> _logger;
 
-            public UsersController(IUserService userService, ILogger<UsersController> logger)
+            public UsersController(IUserService userService)
             {
                 _userService = userService;
-                _logger = logger;
-            }
-
-            [HttpPost("authenticate")]
-            public IActionResult Authenticate(AuthenticateRequest model)
-            {
-                _logger.LogInformation("In authenticate", model);
-
-                if (model is null)
-                {
-                    throw new ArgumentNullException(nameof(model));
-                }
-
-                if (model.GoogleToken != null)
-                {
-                    var response = _userService.AuthenticateWithGoogle(model);
-                    if (response == null)
-                        return BadRequest(new { message = "Invalid token" });
-
-                    return Ok(response);
-                }
-
-                var res = _userService.Authenticate(model);
-
-                if (res == null)
-                    return BadRequest(new { message = "Username or password is incorrect" });
-
-                return Ok(res);
             }
 
             [HttpPost]
